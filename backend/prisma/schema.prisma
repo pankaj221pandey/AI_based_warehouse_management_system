@@ -1,0 +1,137 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-py"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  sku         String   @unique
+  msku        String?
+  name        String
+  description String?
+  category    String?
+  price       Float?
+  cost        Float?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  // Relations
+  orderItems OrderItem[]
+  inventory  Inventory[]
+  salesData  SalesData[]
+  returns    ProductReturn[]
+
+  @@map("products")
+}
+
+model Order {
+  id            String   @id @default(cuid())
+  order_number  String   @unique
+  customer_name String?
+  order_date    DateTime
+  total_amount  Float
+  status        String   @default("pending")
+  marketplace   String?
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  // Relations
+  items OrderItem[]
+  sales SalesData[]
+  returns ProductReturn[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  quantity  Int
+  unit_price Float
+  total_price Float
+  order_id  String
+  product_id String
+
+  // Relations
+  order   Order   @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
+
+  @@map("order_items")
+}
+
+model SalesData {
+  id          String   @id @default(cuid())
+  date        DateTime
+  quantity    Int
+  revenue     Float
+  cost        Float?
+  profit      Float?
+  marketplace String?
+  product_id  String
+  order_id    String?
+
+  // Relations
+  product Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  order   Order? @relation(fields: [order_id], references: [id], onDelete: SetNull)
+
+  @@map("sales_data")
+}
+
+model Inventory {
+  id         String   @id @default(cuid())
+  quantity   Int      @default(0)
+  location   String?
+  product_id String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  // Relations
+  product Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
+
+  @@map("inventory")
+}
+
+model ProductReturn {
+  id            String   @id @default(cuid())
+  return_number String   @unique
+  order_id      String?
+  product_id    String
+  quantity      Int
+  reason        String?
+  return_date   DateTime @default(now())
+  status        String   @default("pending")
+
+  // Relations
+  product Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  order   Order? @relation(fields: [order_id], references: [id], onDelete: SetNull)
+
+  @@map("returns")
+}
+
+model SKUMapping {
+  id        String   @id @default(cuid())
+  sku       String   @unique
+  msku      String
+  marketplace String?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("sku_mappings")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  role      String   @default("user")
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("users")
+} 

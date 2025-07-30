@@ -1,0 +1,52 @@
+# Docker Compose configuration for WMS
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: wms_postgres
+    environment:
+      POSTGRES_DB: wms_db
+      POSTGRES_USER: wms_user
+      POSTGRES_PASSWORD: wms_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - wms_network
+
+  backend:
+    build: ./backend
+    container_name: wms_backend
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://wms_user:wms_password@postgres:5432/wms_db
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+    depends_on:
+      - postgres
+    networks:
+      - wms_network
+    volumes:
+      - ./backend:/app
+      - ./data:/app/data
+
+  frontend:
+    build: ./frontend
+    container_name: wms_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      REACT_APP_API_URL: http://backend:8000
+    depends_on:
+      - backend
+    networks:
+      - wms_network
+
+
+volumes:
+  postgres_data:
+
+networks:
+  wms_network:
+    driver: bridge 

@@ -1,0 +1,11 @@
+sku,product_name,quantity,revenue,cost,marketplace,category
+ABC123,Golden Apple,50,1000.00,600.00,Amazon,Fruits
+DEF456,Silver Pear,30,600.00,400.00,eBay,Fruits
+GHI789,Bronze Orange,25,500.00,300.00,Shopify,Fruits
+JKL012,Platinum Banana,40,800.00,500.00,Amazon,Fruits
+MNO345,Diamond Grape,20,400.00,250.00,WooCommerce,Fruits
+PQR678,Ruby Strawberry,35,700.00,450.00,Amazon,Berries
+STU901,Emerald Blueberry,15,300.00,200.00,Shopify,Berries
+VWX234,Sapphire Raspberry,45,900.00,550.00,eBay,Berries
+YZA567,Topaz Blackberry,25,500.00,350.00,Amazon,Berries
+BCD890,Amethyst Cranberry,30,600.00,400.00,WooCommerce,Berries 

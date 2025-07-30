@@ -1,0 +1,34 @@
+{
+  "name": "wms-system",
+  "version": "1.0.0",
+  "description": "Comprehensive Warehouse Management System with AI capabilities",
+  "scripts": {
+    "setup": "bash setup.sh",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && uvicorn main:app --reload --host 0.0.0.0 --port 8000",
+    "dev:frontend": "cd frontend && npm start",
+    "build": "cd frontend && npm run build",
+    "start": "docker-compose up -d",
+    "stop": "docker-compose down",
+    "clean": "docker-compose down -v",
+    "gui": "python gui/sku_mapper.py",
+    "install:all": "npm install && cd frontend && npm install && cd ../backend && pip install -r requirements.txt",
+    "db:migrate": "cd backend && npx prisma migrate dev",
+    "db:generate": "cd backend && npx prisma generate",
+    "db:studio": "cd backend && npx prisma studio"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  },
+  "keywords": [
+    "wms",
+    "warehouse",
+    "management",
+    "system",
+    "ai",
+    "data",
+    "analytics"
+  ],
+  "author": "WMS Development Team",
+  "license": "MIT"
+} 
