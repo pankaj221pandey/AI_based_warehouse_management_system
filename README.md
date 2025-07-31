@@ -20,8 +20,8 @@ A comprehensive solution for managing warehouse operations, inventory tracking, 
 
 1. **Download the application**
    ```bash
-   git clone <your-repo-url>
-   cd warehouse-management-system
+   git clone https://github.com/pankaj221pandey/AI_based_warehouse_management_system.git
+   cd AI_based_warehouse-management-system
    ```
 
 2. **Start the application**
