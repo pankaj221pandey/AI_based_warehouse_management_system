@@ -112,5 +112,3 @@ To update the application:
 3. Restart: `docker-compose up -d`
 
 ---
-
-**Need technical support?** Contact your system administrator or check the documentation for advanced configuration options.
